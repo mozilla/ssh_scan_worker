@@ -1,0 +1,25 @@
+language: ruby
+sudo: false
+dist: trusty
+before_install: gem update --system
+matrix:
+  include:
+  - rvm: ruby-head
+    env:
+      - LABEL=unit_tests
+  - rvm: 2.5.0
+    env:
+      - LABEL=unit_tests
+  - rvm: 2.3.6
+    env:
+      - LABEL=unit_tests
+  - rvm: 2.2.9
+    env:
+      - LABEL=unit_tests
+  # - rvm: 2.5.0
+  #   env:
+  #     - LABEL=docker_build_tests
+  #   services:
+  #     - docker
+  #   script:
+  #     - docker-compose build
