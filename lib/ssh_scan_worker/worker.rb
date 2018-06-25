@@ -6,16 +6,25 @@ require 'net/https'
 module SSHScan
   class Worker
     def initialize(opts = {})
-      @server = ENV['sshscan.api.host'] || opts["server"] || "127.0.0.1"
-      @scheme = opts["scheme"] || "http"
-      @verify = opts["verify"] || "false"
-      @port = opts["port"] || 8000
+      raise ArgumentError.new("API server not specified") unless ENV['sshscan.api.host'] || opts["server"]
+      @server =  ENV['SSHSCAN_API_HOST'] || opts["server"]
+      
+      raise ArgumentError.new("API scheme not specified") unless ENV['sshscan.api.host'] || opts["scheme"]
+      @scheme = ENV['SSHSCAN_API_SCHEME'] || opts["scheme"]
+
+      raise ArgumentError.new("API verify not specified") unless ENV['sshscan.api.verify'] || opts["verify"]
+      @verify = ENV['SSHSCAN_API_VERIFY'] || opts["verify"]
+
+      raise ArgumentError.new("API port not specified") unless ENV['sshscan.api.port'] || opts["port"]
+      @port = ENV['SSHSCAN_API_PORT'] || opts["port"]
+
+      raise ArgumentError.new("API auth token not specified") unless ENV['sshscan.api.token'] || opts["token"]
+      @auth_token = ENV['SSHSCAN_API_TOKEN'] || opts["token"] 
+
       @logger = setup_logger(opts["logger"])
       @poll_interval = opts["poll_interval"] || 5 # in seconds
       @poll_restore_interval = opts["poll_restore_interval"] || 5 # in seconds
       @worker_id = SecureRandom.uuid
-      @verify_ssl = false
-      @auth_token = ENV['sshscan.worker.token'] || opts["auth_token"] || nil
     end
 
     def setup_logger(logger)
@@ -27,11 +36,6 @@ module SSHScan
       end
 
       return Logger.new(STDOUT)
-    end
-
-    def self.from_config_file(file_string)
-      opts = YAML.load_file(file_string)
-      SSHScan::Worker.new(opts)
     end
 
     def run!
@@ -53,7 +57,7 @@ module SSHScan
             next
           end
         rescue Errno::ECONNREFUSED
-          @logger.error("Cannot reach API endpoint, waiting #{@poll_restore_interval} seconds")
+          @logger.error("Cannot reach API endpoint #{@server}:#{@port}, waiting #{@poll_restore_interval} seconds")
           sleep @poll_restore_interval
         #rescue RuntimeError => e
           @logger.error(e.inspect)

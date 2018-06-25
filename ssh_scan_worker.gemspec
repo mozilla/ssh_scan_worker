@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
              "Gemfile",
              "Rakefile",
              "README.md",
-             "ssh_scan_api.gemspec"]
+             "ssh_scan_worker.gemspec"]
   s.license       = "ruby"
   s.require_paths = ["lib"]
   s.executables   = s.files.grep(%r{^bin/[^\/]+$}) { |f| File.basename(f) }
