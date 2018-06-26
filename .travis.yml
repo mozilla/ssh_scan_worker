@@ -21,5 +21,20 @@ matrix:
       - LABEL=docker_build_tests
     services:
       - docker
+    branches:
+      only:
+      - master
+    script:
+      - docker build -t mozilla/ssh_scan_worker .
+      - docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
+      - docker push mozilla/ssh_scan_worker:latest
+  - rvm: 2.5.0
+    env:
+      - LABEL=docker_build_tests
+    services:
+      - docker
+    branches:
+      except:
+      - master
     script:
       - docker build -t mozilla/ssh_scan_worker .
