@@ -18,7 +18,7 @@ matrix:
       - LABEL=unit_tests
   - rvm: 2.5.0
     env:
-      - LABEL=docker_build_tests
+      - LABEL=docker_build_and_push
     services:
       - docker
     branches:
@@ -30,7 +30,7 @@ matrix:
       - docker push mozilla/ssh_scan_worker:latest
   - rvm: 2.5.0
     env:
-      - LABEL=docker_build_tests
+      - LABEL=docker_build_only
     services:
       - docker
     branches:
