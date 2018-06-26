@@ -17,20 +17,10 @@ matrix:
     env:
       - LABEL=unit_tests
   - rvm: 2.5.0
-    if: branch != master
-    env:
-      - LABEL=docker_build_only
-    services:
-      - docker
-    script:
-      - docker build -t mozilla/ssh_scan_worker .
-  - rvm: 2.5.0
-    if: branch = master
     env:
       - LABEL=docker_build_and_push
     services:
       - docker
     script:
-      - docker build -t mozilla/ssh_scan_worker .
-      - docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
-      - docker push mozilla/ssh_scan_worker:latest
+      - chmod u+x ./build_and_deploy_to_dockerhub.sh
+      - ./build_and_deploy_to_dockerhub.sh
