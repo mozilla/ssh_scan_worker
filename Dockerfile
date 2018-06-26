@@ -8,7 +8,6 @@ COPY ./Gemfile /app/Gemfile
 COPY ./ssh_scan_worker.gemspec /app/ssh_scan_worker.gemspec
 COPY ./lib /app/lib
 COPY ./bin /app/bin
-COPY ./db /app/db
 
 RUN cd /app && \
     gem install bundler && \
