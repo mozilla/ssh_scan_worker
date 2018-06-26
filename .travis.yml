@@ -17,16 +17,20 @@ matrix:
     env:
       - LABEL=unit_tests
   - rvm: 2.5.0
+    if: branch = master
     env:
       - LABEL=docker_build_and_push
     services:
       - docker
     script:
       - docker build -t mozilla/ssh_scan_worker .
-      - >
-          if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then \
-            docker login -u="$DOCKER_USER" -p="$DOCKER_PASS" ;\
-            docker push mozilla/ssh_scan_worker:latest ;\
-          else \
-            exit 0 ;\
-          fi
+      - docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
+      - docker push mozilla/ssh_scan_worker:latest
+  - rvm: 2.5.0
+    if: branch = master
+    env:
+      - LABEL=docker_build_only
+    services:
+      - docker
+    script:
+      - docker build -t mozilla/ssh_scan_worker .
