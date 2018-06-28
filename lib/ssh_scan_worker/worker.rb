@@ -56,10 +56,10 @@ module SSHScan
             sleep @poll_interval
             next
           end
-        rescue Errno::ECONNREFUSED => e
+        rescue Errno::ECONNREFUSED
           @logger.error("Cannot reach API endpoint #{@server}:#{@port}, waiting #{@poll_restore_interval} seconds")
           sleep @poll_restore_interval
-        #rescue RuntimeError => e
+        rescue RuntimeError => e
           @logger.error(e.inspect)
         end
       end
