@@ -13,9 +13,6 @@ matrix:
   - rvm: 2.3.6
     env:
       - LABEL=unit_tests
-  - rvm: 2.2.9
-    env:
-      - LABEL=unit_tests
   - rvm: 2.5.0
     env:
       - LABEL=docker_build_and_push
