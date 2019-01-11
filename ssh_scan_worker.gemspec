@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.homepage = 'http://rubygems.org/gems/ssh_scan_worker'
 
   s.add_dependency('ssh_scan', '0.0.35')
+  s.add_development_dependency('rack', '>= 2.0.6')
   s.add_development_dependency('rack-test')
   s.add_development_dependency('pry')
   s.add_development_dependency('rspec', '~> 3.0')
