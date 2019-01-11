@@ -11,4 +11,6 @@ COPY ./bin /app/bin
 
 RUN cd /app && \
     gem install bundler && \
+    bundle update --bundler && \
+    bundle update && \
     bundle install
